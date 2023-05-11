@@ -5,6 +5,6 @@ This is a blog app with an admin dashboard, using the mvc architecture approche 
 
 ## Note: 
 `
-  I'm not a professional php dev nor used mvc pattern before, so appart from the assignement, this project is for learning purposes. So i'll be glad to hear your opinions, some changes to make  
+  I'm not a professional php dev nor used mvc pattern before, so appart from the assignement, this project is for learning purposes. So i'll be glad to hear your opinions.
 `
 
