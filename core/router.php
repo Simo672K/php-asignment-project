@@ -1,21 +1,36 @@
 <?php
   class Router{
     private $route;
-    static $appRoutes= array();
+    private $app_route_views;
+    static $app_routes= array();
+    static $base_route= "";
 
-    function __construct($routes){
-      self::$appRoutes= $routes;
+    function __construct($routes_maps, $base, $views=null){
+      $this->app_route_views = $routes_maps;
+      foreach ($this->app_route_views as $key => $value) {
+        array_push(self::$app_routes, $value[0]);
+      }
+      self::$base_route= $base;
     }
 
     // Private functions
-    private function checkRoute($path){
-      $modifiedPath="{$path[strlen($path)-1]}" == "/"? substr($path, 0, -1) : $path;
-      return in_array($modifiedPath, self::$appRoutes);
+    private function checkRoute($absolute_url){
+      $url= str_replace(self::$base_route, "",$absolute_url);
+      return in_array($url, self::$app_routes);
     }
 
-    // Publick functions
-    public function get($path, $data, $callback){
-      $isLegitRoute= $this->checkRoute($path);
+    private function getView($url){
+      foreach($this->app_route_views as $key=> $value){
+        if($value[0] == $url){
+          return $value[1];
+        }
+      }
+      return;
+    }
+
+    // Public functions
+    public function get($url, $data){
+      $isLegitRoute= $this->checkRoute($url);
       $context= null; 
       
       if($data){
@@ -23,9 +38,9 @@
       }
 
       if($isLegitRoute){
-        $callback($path, $context);
+        echo $this->getView($url);
       }else {
-        echo "404 Path does not exist";
+        echo "<br/><h1>404 url does not exist</h1>";
       }
     }
 
