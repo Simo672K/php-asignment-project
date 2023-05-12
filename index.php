@@ -23,19 +23,23 @@
   $parser= new Parser(TEMPLATE_DIR);
 
   $data= $test->getAll();
-  $testTemplate= $parser->getTemplate("index.html");
+  $testTemplate= $parser->render("index.html",
+    [ "title"=>"hello world",
+      "content"=> "fkjsgd qsdfkjomqisfd qksnmdfohqs djqshdfumiqsd fjqsdhofimqsdf kjqhisdof^mqskdfn kjfiqsodf^qsdf kfiohqsdfkl"
+    ]);
 
   echo $testTemplate;
 
   $router->get($request, $data, function($req, $context){
-    if($context){
-      foreach($context as $ctx){
-        echo "{$ctx['id']} ";
-        echo "{$ctx['name']} ";
-        echo "{$ctx['age']} <br/>";
-      }
-    }else {
-      echo "You have been redirected to $req";
-    }
+    // if($context){
+    //   foreach($context as $ctx){
+    //     echo "{$ctx['id']} ";
+    //     echo "{$ctx['name']} ";
+    //     echo "{$ctx['age']} <br/>";
+    //   }
+    // }else {
+    //   echo "You have been redirected to $req";
+    // }
+    
   });
 

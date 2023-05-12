@@ -1,16 +1,16 @@
 <?php
   class Router{
     private $route;
-    static $appRoutes;
+    static $appRoutes= array();
 
     function __construct($routes){
-      $this->appRoutes= $routes;
+      self::$appRoutes= $routes;
     }
 
     // Private functions
     private function checkRoute($path){
       $modifiedPath="{$path[strlen($path)-1]}" == "/"? substr($path, 0, -1) : $path;
-      return in_array($modifiedPath, $this->appRoutes);
+      return in_array($modifiedPath, self::$appRoutes);
     }
 
     // Publick functions

@@ -1,24 +1,13 @@
 <?php
+  include("tengine.php");
   class Parser{
-    static $templatesPath;
-    private $loadedHtml;
-    private $proceessedHtml;
-
+    static $templatesPath= "";
+    
     function __construct($templateDir){
-      $this->templatesPath = $templateDir;
+      self::$templatesPath = $templateDir;
     }
 
-    private function parseTemplate($templateName){
-      echo $this->templatesPath.'\\'.$templateName;
-      $this->loadedHtml = file_get_contents($this->templatesPath.'\\'. $templateName);
-    }
-
-    private function processTemplate(){
-
-    }
-
-    public function getTemplate($template){
-      $this->parseTemplate($template);
-      return $this->loadedHtml;
+    public function render($template, $context){
+      return TEngine::view(self::$templatesPath."\\".$template, $context);
     }
   }
