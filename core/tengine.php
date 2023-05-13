@@ -6,6 +6,7 @@ class TEngine{
   static $templates_path= __DIR__;
 
 	static function view($path, $data = array()) {
+		self::clearCache();
 		$cached_file = self::cache($path);
     extract($data, EXTR_SKIP);
     require $cached_file;

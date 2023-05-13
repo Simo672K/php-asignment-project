@@ -1,3 +1,3 @@
 <?php 
-  include('settings.php');
+  include('controllers/controller.php');
 
