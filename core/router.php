@@ -87,6 +87,7 @@
         if($isLegitRoute){
           echo $this->getView($url);
         }else {
+          header("HTTP/1.1 404 Not Found");
           echo "<br/><h1>404 url does not exist</h1>";
         }
       }else {
