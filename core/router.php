@@ -26,28 +26,37 @@
       $file_os_path= STATIC_DIR. implode('\\', $url_params);
 
       $content_type= "";
+      $not_found= false;
 
       switch ($file_extension){
         case "css":
           $content_type = "text/css";
           break;
+
         case "js":
           $content_type = "application/javascript";
           break;
+
         case "png":
         case "jpg":
         case "gif":
           $content_type = "image";
           break;
-        default:
-          $content_type = "";
-          break;
-      }
 
-      
-      header("content-type: $content_type");
-      $content = file_get_contents($file_os_path);
-      echo $content;
+        default:
+          $not_found= true;
+          break;
+        }
+
+      if(!$not_found){
+        header("content-type: $content_type");
+        $content = file_get_contents($file_os_path);
+        echo $content;
+      }else{
+        header("HTTP/1.1 404 Not Found");
+        echo "<br/><h3><center><i>404 file not found!</i></center></h3><hr/>
+        <center><p><i> The url</i> <code style='background: #FFCDD2;padding: 2px;border: solid 1px #EF5350;margin:0 4px;'>$path</code> <i>that you're trying to reach does not exist.</i></p></center>";
+      }
     }
 
     // Private functions
@@ -88,7 +97,7 @@
           echo $this->getView($url);
         }else {
           header("HTTP/1.1 404 Not Found");
-          echo "<br/><h1>404 url does not exist</h1>";
+          echo "<h3><center><i>404 url does not exist</i></center></h3>";
         }
       }else {
         self::serveStatic($url);
