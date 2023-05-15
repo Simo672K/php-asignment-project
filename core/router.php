@@ -3,13 +3,13 @@
   require_once ("views/views.php");
   class Router{
     private $route;
-    private $app_route_views;
+    static $app_route_views;
     static $app_routes= array();
     static $base_route= "";
     
     function init($routes_maps, $base){
-      $this->app_route_views = $routes_maps;
-      foreach ($this->app_route_views as $key => $value) {
+      self::$app_route_views = $routes_maps;
+      foreach (self::$app_route_views as $key => $value) {
         array_push(self::$app_routes, $value[0]);
       }
       self::$base_route= $base;
@@ -47,7 +47,7 @@
           $not_found= true;
           break;
         }
-
+        
       if(!$not_found){
         header("content-type: $content_type");
         $content = file_get_contents($file_os_path);
@@ -71,9 +71,9 @@
       $views= new Views(TEMPLATE_DIR);
       
       // Check template to render; 
-      foreach($this->app_route_views as $key=> $value){
+      foreach(self::$app_route_views as $key=> $value){
         if($value[0] == $url){
-          $views->render_view($value[1]);
+          $views->render_view($value[1], self::$app_route_views);
         }
       }
       return;

@@ -7,7 +7,7 @@
       self::$templatesPath = $templateDir;
     }
 
-    public function render($template, $context){
-      return TEngine::view(self::$templatesPath."\\".$template, $context);
+    public function render($template, $urls, $context){
+      return TEngine::view(self::$templatesPath."\\".$template, $urls, $context);
     }
   }

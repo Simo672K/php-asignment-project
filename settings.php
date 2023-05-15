@@ -13,6 +13,8 @@
   $base_route = "/". end($current_file_dir);
   $request_url= str_replace($base_route, '', $request);
   $static_url= $base_route.'/static';
+  
+  define("BASE_URL", $base_route);
   define("STATIC_URL", $static_url);
 
 

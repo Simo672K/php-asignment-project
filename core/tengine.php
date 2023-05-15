@@ -5,9 +5,14 @@ class TEngine{
 	static $cache_path = 'cache/';
 	static $cache_enabled = FALSE;
   static $templates_path= __DIR__;
+  static $routes_config= array();
 
-	static function view($path, $data = array()) {
+	static function view($path, $urls, $data = array()) {
 		self::clearCache();
+		foreach($urls as $value){
+			self::$routes_config[$value[2]]= $value[0];
+		}
+
 		$cached_file = self::cache($path);
     extract($data, EXTR_SKIP);
     require $cached_file;
@@ -43,7 +48,8 @@ class TEngine{
 		$code = self::compileEscapedEchos($code);
 		$code = self::compileEchos($code);
 		$code = self::complileStatics($code);
-		$code = self::compilePHP($code);
+		// $code = self::compilePHP($code);
+		$code= self::complileUrls($code);
 		return $code;
 	}
 
@@ -67,12 +73,24 @@ class TEngine{
 	static function complileStatics($code){
 		return preg_replace('/{% static \'(.*?)\' %}/i', '<?php echo STATIC_URL . "/$1"; ?>', $code);
 	}
+	
+	static function processUrl($code){
+    preg_match_all('/{% url \'(.*?)\' %}/i', $code, $matches, PREG_SET_ORDER);
+    foreach($matches as $value){
+			preg_match("/'(.*?)'/", $value[0], $match);
+			$m = str_replace("'", "", $match[0]);
+			return BASE_URL.self::$routes_config[$m];
+		}
+	}
 
 	// static and dynamic links compilation
 	static function complileUrls($code){
-		
+		return preg_replace_callback('/{% url \'(.*?)\' %}/i', function($matches) {
+				$url = self::processUrl($matches[0]);
+				return '<?php echo "'.$url.'"; ?>';
+		}, $code);
 	}
-	
+
 	// for dynamic data filling
 	static function compileEchos($code) {
 		return preg_replace('~\{{\s*(.+?)\s*\}}~is', '<?php echo $$1 ?>', $code);

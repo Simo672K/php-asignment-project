@@ -10,8 +10,8 @@
       self::$template_base_dir= $template_dir;
     }
 
-    public function render_view($template, $context=array()){
+    public function render_view($template, $urls, $context=array()){
       $parser = new Parser(self::$template_base_dir);
-      return $parser->render($template, $context);
+      return $parser->render($template, $urls, $context);
     }
   }

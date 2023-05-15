@@ -3,8 +3,8 @@
   $router = new Router();
   
   $routes= [
-    ["/", 'index.html'],
-    ["/login", 'login.html']
+    ["/", 'index.html', 'home'],
+    ["/login", 'login.html', 'login'],
   ];
 
   $router->init($routes, $base_route);
